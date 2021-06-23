@@ -29,11 +29,16 @@ Route::get('about', function () {
 Route::get('contact', [ContactController::class, 'index'])->name('contact');
 
 // Category Controller
-Route::get('category/all', [CategoryController::class, 'allCategory'])->name('all.category');
-Route::post('category/add', [CategoryController::class, 'store'])->name('store.category');
+Route::prefix('category')->group(function () {
+    Route::get('/all', [CategoryController::class, 'allCategory'])->name('all.category');
+    Route::post('/add', [CategoryController::class, 'store'])->name('store.category');
+    Route::get('/edit/{id}', [CategoryController::class, 'edit']);
+    Route::post('/update/{id}', [CategoryController::class, 'update']);
+    Route::delete('/delete', [CategoryController::class, 'delete'])->name('delete.category');
+});
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-
     $users = User::all();
     // $users = DB::table('users')->get();
     return view('dashboard', compact('users'));

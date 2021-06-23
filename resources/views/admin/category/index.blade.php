@@ -14,7 +14,7 @@
                     <button class="btn-close" data-dismiss="alert" aria-label="Close" type="button"></button>
                 </div>
                 @endif
-                <div class="col-md-8">
+                <div class="col-md-8 mx-auto">
                     <div class="card">
                         <div class="card-header">
                             All Category
@@ -26,6 +26,7 @@
                                     <th scope="col">category Name</th>
                                     <th scope="col">User Name</th>
                                     <th scope="col">Created At</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -41,6 +42,14 @@
                                     @else
                                     <td>{{$category->created_at->diffForHumans()}}</td>
                                     @endif
+                                    <td>
+                                        <div class="d-flex flex-md-row flex-column align-items-center">
+                                            <a href="{{ url('category/edit/'.$category->id) }}"
+                                                class="btn btn-info m-1">Edit</a>
+                                            <a href="{{ route('delete.category') }}"
+                                                class="btn btn-danger m-1">Delete</a>
+                                        </div>
+                                    </td>
                                 </tr>
                                 @endforeach
                                 @endif

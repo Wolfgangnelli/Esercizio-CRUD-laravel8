@@ -36,4 +36,21 @@ class CategoryController extends Controller
 
         return redirect()->back()->with('success', 'Category inserted successfully!');
     }
+
+    public function edit($id)
+    {
+        $category = Category::findOrFail($id);
+
+        return view('admin.category.edit', compact('category'));
+    }
+
+    public function update(StoreCategoryRequest $request, $id)
+    {
+        Category::findOrFail($id)->update([
+            'category_name' => $request->category_name,
+            'user_id' => Auth::user()->id
+        ]);
+
+        return redirect()->route('all.category')->with('success', 'Category name updated correctly!');
+    }
 }
