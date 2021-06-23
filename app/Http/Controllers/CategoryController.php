@@ -7,12 +7,18 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
     public function allCategory()
     {
-        $categories = Category::latest()->paginate(env('CATEGORY_FOR_PAGE'));
+        //Query builder
+        /* $categories = DB::table('categories')
+        ->join('users', 'categories.user_id', 'users.id')
+        ->select('categories.*', 'users.name')
+        ->latest()->paginate(env('CATEGORY_FOR_PAGE')); */
+        $categories = Category::with('user')->latest()->paginate(env('CATEGORY_FOR_PAGE'));
         return view('admin.category.index', compact('categories'));
     }
 
