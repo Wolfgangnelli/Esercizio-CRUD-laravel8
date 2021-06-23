@@ -34,7 +34,9 @@ Route::prefix('category')->group(function () {
     Route::post('/add', [CategoryController::class, 'store'])->name('store.category');
     Route::get('/edit/{id}', [CategoryController::class, 'edit']);
     Route::post('/update/{id}', [CategoryController::class, 'update']);
-    Route::delete('/delete', [CategoryController::class, 'delete'])->name('delete.category');
+    Route::get('/softdelete/{id}', [CategoryController::class, 'softDelete']);
+    Route::get('/forcedelete/{id}', [CategoryController::class, 'forceDelete']);
+    Route::get('/restore/{id}', [CategoryController::class, 'restore']);
 });
 
 
