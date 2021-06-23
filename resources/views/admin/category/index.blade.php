@@ -7,6 +7,13 @@
     <div class="py-12">
         <div class="container">
             <div class="row">
+                @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between"
+                    role="alert">
+                    <strong>{{session('success')}}</strong>
+                    <button class="btn-close" data-dismiss="alert" aria-label="Close" type="button"></button>
+                </div>
+                @endif
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">
