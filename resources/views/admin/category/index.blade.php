@@ -1,9 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Hi... <b>{{Auth::user()->name}}</b>
-        </h2>
-        <b style="float:right">Total Users: <span class="badge bg-danger">{{count($users)}}</span></b>
+            All Category
     </x-slot>
 
     <div class="py-12">
@@ -19,17 +17,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($users)
-                        @php($i = 1)
-                        @foreach ($users as $user)
+
                         <tr>
-                            <th scope="row">{{$i++}}</th>
-                            <td>{{$user->name}}</td>
-                            <td>{{$user->email}}</td>
-                            <td>{{$user->created_at->diffForHumans()}}</td>
+                            <th scope="row"></th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
-                        @endforeach
-                        @endif
+
                     </tbody>
                 </table>
             </div>
