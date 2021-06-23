@@ -18,8 +18,10 @@ class CategoryController extends Controller
         ->join('users', 'categories.user_id', 'users.id')
         ->select('categories.*', 'users.name')
         ->latest()->paginate(env('CATEGORY_FOR_PAGE')); */
+
         $categories = Category::with('user')->latest()->paginate(env('CATEGORY_FOR_PAGE'));
-        return view('admin.category.index', compact('categories'));
+        $trashCat = Category::onlyTrashed()->latest()->paginate(3);
+        return view('admin.category.index', compact('categories', 'trashCat'));
     }
 
     public function store(StoreCategoryRequest $request)
@@ -51,6 +53,27 @@ class CategoryController extends Controller
             'user_id' => Auth::user()->id
         ]);
 
-        return redirect()->route('all.category')->with('success', 'Category name updated correctly!');
+        return redirect()->route('all.category')->with('success', 'Category updated correctly!');
+    }
+
+    public function softDelete($id)
+    {
+        Category::destroy($id);
+
+        return redirect()->back()->with('success', 'Category soft deleted correctly!');
+    }
+
+    public function forceDelete($id)
+    {
+        Category::onlyTrashed()->find($id)->forceDelete();
+
+        return redirect()->back()->with('success1', 'Category deleted permanently!');
+    }
+
+    public function restore($id)
+    {
+        Category::withTrashed()->find($id)->restore();
+
+        return redirect()->back()->with('success1', 'Category restored correctly!');
     }
 }
