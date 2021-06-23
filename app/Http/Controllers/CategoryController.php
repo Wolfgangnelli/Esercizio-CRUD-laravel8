@@ -12,7 +12,7 @@ class CategoryController extends Controller
 {
     public function allCategory()
     {
-        $categories = Category::latest()->get();
+        $categories = Category::latest()->paginate(env('CATEGORY_FOR_PAGE'));
         return view('admin.category.index', compact('categories'));
     }
 
