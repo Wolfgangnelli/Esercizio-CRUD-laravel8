@@ -17,7 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('home', function () {
+    echo "This is home page ";
+});
+
 Route::get('about', function () {
     return view('about');
-});
+})->middleware('age');
+
 Route::get('contact', [ContactController::class, 'index']);
