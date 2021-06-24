@@ -8,10 +8,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 mx-auto">
-                    @if (session('success'))
+                    @if (session('message'))
                     <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between"
                         role="alert">
-                        <strong>{{session('success')}}</strong>
+                        <strong>{{session('message')}}</strong>
                         <button class="btn-close" data-dismiss="alert" aria-label="Close" type="button"></button>
                     </div>
                     @endif
@@ -35,7 +35,9 @@
                                 <tr>
                                     <th scope="row">{{$brands->firstItem()+$loop->index}}</th>
                                     <td>{{$brand->brand_name}}</td>
-                                    <td><img src="{{$brand->brand_image}}" alt="{{$brand->brand_name}}"></td>
+                                    <td><img src="{{asset($brand->brand_image)}}"
+                                            style="height:50px; width:50px; border-radius:50%"
+                                            alt="{{$brand->brand_name}}"></td>
                                     @if ($brand->created_at == NULL)
                                     <span class="text-danger">No Date set</span>
                                     @else
