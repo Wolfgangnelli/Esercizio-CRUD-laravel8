@@ -44,6 +44,8 @@ Route::prefix('category')->group(function () {
 Route::prefix('brand')->group(function () {
     Route::get('/all', [BrandController::class, 'index'])->name('all.brand');
     Route::post('/store', [BrandController::class, 'store'])->name('store.brand');
+    Route::get('/edit/{id}', [BrandController::class, 'edit'])->where('id', '[0-9]+');
+    Route::patch('/update/{id}', [BrandController::class, 'update'])->name('update.brand')->where('id', '[0-9]+');
 });
 
 
