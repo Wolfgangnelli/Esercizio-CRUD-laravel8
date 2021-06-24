@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Models\User;
@@ -37,6 +38,12 @@ Route::prefix('category')->group(function () {
     Route::get('/softdelete/{id}', [CategoryController::class, 'softDelete']);
     Route::get('/forcedelete/{id}', [CategoryController::class, 'forceDelete']);
     Route::get('/restore/{id}', [CategoryController::class, 'restore']);
+});
+
+// Brand Routes
+Route::prefix('brand')->group(function () {
+    Route::get('/all', [BrandController::class, 'index'])->name('all.brand');
+    Route::post('/store', [BrandController::class, 'store'])->name('store.brand');
 });
 
 
