@@ -47,8 +47,8 @@
                                         <div class="d-flex flex-md-row flex-column align-items-center">
                                             <a href="{{url('brand/edit/'.$brand->id)}}"
                                                 class="btn btn-info m-1">Edit</a>
-                                            <a href="{{url('brand/delete/'.$brand->id)}}"
-                                                class="btn btn-danger m-1">Delete</a>
+                                            <a href="{{url('brand/delete/'.$brand->id)}}" class="btn btn-danger m-1"
+                                                onclick="return confirm('Are you sure to delete?')">Delete</a>
                                         </div>
                                     </td>
                                 </tr>

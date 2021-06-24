@@ -46,6 +46,7 @@ Route::prefix('brand')->group(function () {
     Route::post('/store', [BrandController::class, 'store'])->name('store.brand');
     Route::get('/edit/{id}', [BrandController::class, 'edit'])->where('id', '[0-9]+');
     Route::patch('/update/{id}', [BrandController::class, 'update'])->name('update.brand')->where('id', '[0-9]+');
+    Route::get('/delete/{id}', [BrandController::class, 'delete'])->name('brand.delete')->where('id', '[0-9]+');
 });
 
 
