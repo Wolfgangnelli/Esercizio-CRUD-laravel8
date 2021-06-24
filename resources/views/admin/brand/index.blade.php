@@ -45,8 +45,9 @@
                                     @endif
                                     <td>
                                         <div class="d-flex flex-md-row flex-column align-items-center">
-                                            <a href="{{url('brand/edit'.$brand->id)}}" class="btn btn-info m-1">Edit</a>
-                                            <a href="{{url('brand/delete'.$brand->id)}}"
+                                            <a href="{{url('brand/edit/'.$brand->id)}}"
+                                                class="btn btn-info m-1">Edit</a>
+                                            <a href="{{url('brand/delete/'.$brand->id)}}"
                                                 class="btn btn-danger m-1">Delete</a>
                                         </div>
                                     </td>

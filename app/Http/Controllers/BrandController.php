@@ -30,6 +30,27 @@ class BrandController extends Controller
         return redirect()->back();
     }
 
+    public function edit($id)
+    {
+        $brand = Brand::findOrFail($id);
+
+        return view('admin.brand.edit', compact('brand'));
+    }
+
+    public function update($id, StoreBrandRequest $request)
+    {
+        $brand = Brand::findOrFail($id);
+        $brand->brand_name = $request->brand_name;
+        $brand->brand_image = $request->brand_image;
+
+        $res = $this->processFile($request, $brand);
+        $brand->save();
+
+        $message = $res ? $brand->brand_name . ' brand correctly updated!' : $brand->brand_name . ' brand not correctly updated!';
+        session()->flash('message', $message);
+
+        return redirect()->route('all.brand');
+    }
     /**
      * Process image files. Verify is it file, generate unique random img name, extension and create a path
      * @param Brand $brand
