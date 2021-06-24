@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBrandRequest;
+use App\Http\Requests\UpdateBrandRequest;
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
@@ -37,19 +39,27 @@ class BrandController extends Controller
         return view('admin.brand.edit', compact('brand'));
     }
 
-    public function update($id, StoreBrandRequest $request)
+    public function update($id, UpdateBrandRequest $request)
     {
         $brand = Brand::findOrFail($id);
-        $brand->brand_name = $request->brand_name;
-        $brand->brand_image = $request->brand_image;
-
-        $res = $this->processFile($request, $brand);
-        $brand->save();
+        if ($request->brand_image) {
+            $brand->brand_name = $request->brand_name;
+            $brand->brand_image = $request->brand_image;
+            $this->processFile($request, $brand);
+            if ($request->old_image) {
+                unlink(storage_path('app/public/' . $request->old_image));
+            }
+            $res = $brand->save();
+        } else {
+            $res =  $brand->update([
+                'brand_name' => $request->brand_name
+            ]);
+        }
 
         $message = $res ? $brand->brand_name . ' brand correctly updated!' : $brand->brand_name . ' brand not correctly updated!';
         session()->flash('message', $message);
 
-        return redirect()->route('all.brand');
+        return redirect()->back();
     }
     /**
      * Process image files. Verify is it file, generate unique random img name, extension and create a path
@@ -75,8 +85,9 @@ class BrandController extends Controller
         $name_generate = hexdec(uniqid());
         $img_ext = strtolower($brand_image->getClientOriginalExtension());
         $img_name = $name_generate . '.' . $img_ext;
-        $path = env('IMG_BRAND_DIR') . '/' . $img_name;
-        $brand_image->move(env('IMG_BRAND_DIR'), $img_name);
+        /* $path = env('IMG_BRAND_DIR') . '/' . $img_name; */
+        /*  $brand_image->move(env('IMG_BRAND_DIR'), $img_name); */
+        $path = $brand_image->storeAs(env('IMG_BRAND_DIR'), $img_name, 'public');
         $brand->brand_image = $path;
 
         return true;
