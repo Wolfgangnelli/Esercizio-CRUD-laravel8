@@ -8,6 +8,13 @@
         <div class="container ">
             <div class="row">
                 <div class="col-md-8 mx-auto">
+                    @if (session('message'))
+                    <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between"
+                        role="alert">
+                        <strong>{{session('message')}}</strong>
+                        <button class="btn-close" data-dismiss="alert" aria-label="Close" type="button"></button>
+                    </div>
+                    @endif
                     <div class="card">
                         <div class="card-header">Edit Brand</div>
                         <div class="card-body">
@@ -15,6 +22,7 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="_method" value="PATCH">
+                                <input type="hidden" name="old_image" value="{{$brand->brand_image}}">
 
                                 <div class="mb-3">
                                     <label for="brand_name" class="form-label">Update Brand Name</label>
@@ -38,8 +46,8 @@
                                 </div>
                                 @if ($brand->brand_image)
                                 <figure class="figure">
-                                    <img src="{{asset($brand->brand_image)}}" alt="{{$brand->brand_name}}"
-                                        class="figure-img img-fluid rounded">
+                                    <img src="{{asset('storage/'.$brand->brand_image)}}" alt="{{$brand->brand_name}}"
+                                        class="figure-img img-fluid rounded" style="object-fit: cover;">
                                     <figcaption class="figure-caption text-xs-right">Fig. {{$brand->brand_name}}
                                     </figcaption>
                                 </figure>
