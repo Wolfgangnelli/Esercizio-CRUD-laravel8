@@ -61,6 +61,23 @@ class BrandController extends Controller
 
         return redirect()->back();
     }
+
+    public function delete($id)
+    {
+        /*  $disk = config('filesystems.default'); */
+        $brand = Brand::findOrFail($id);
+        $old_img = $brand->brand_image;
+
+        $res = $brand->delete();
+
+        if ($res) {
+            $res = Storage::disk('public')->delete($old_img);
+        }
+        $message = $res ? 'Brand deleted correctly!' : 'Brand not deleted correctly!';
+        session()->flash('message', $message);
+
+        return redirect()->back();
+    }
     /**
      * Process image files. Verify is it file, generate unique random img name, extension and create a path
      * @param Brand $brand
