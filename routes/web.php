@@ -23,11 +23,12 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('about', function () {
-    return view('about');
-})->name('about');
-
-Route::get('contact', [ContactController::class, 'index'])->name('contact');
+Route::middleware(['auth'])->group(function () {
+    Route::get('contact', [ContactController::class, 'index'])->name('contact');
+    Route::get('about', function () {
+        return view('about');
+    })->name('about');
+});
 
 // Category Controller
 Route::prefix('category')->group(function () {
