@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBrandRequest;
+use App\Http\Requests\StoreImgsRequest;
 use App\Http\Requests\UpdateBrandRequest;
 use App\Models\Brand;
+use App\Models\Multipic;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Image;
@@ -79,6 +82,7 @@ class BrandController extends Controller
 
         return redirect()->back();
     }
+
     /**
      * Process image files. Verify is it file, generate unique random img name, extension and create a path
      * @param Brand $brand
@@ -111,6 +115,44 @@ class BrandController extends Controller
         $path = env('IMG_BRAND_DIR') . '/' . $img_name;
         $brand->brand_image = $path;
 
+        return true;
+    }
+
+    ///// This is for Multi Image All Methods
+
+    public function multipic()
+    {
+        $images = Multipic::all();
+        return view('admin.multipic.index', compact('images'));
+    }
+
+    public function storeImgs(StoreImgsRequest $request)
+    {
+
+        $res = $this->processMultiImg($request);
+
+        $message = $res ? 'Images saved correctly!' : "Images don't saved correctly!";
+        session()->flash('message', $message);
+
+        return redirect()->back();
+    }
+
+    public function processMultiImg($request)
+    {
+        $image = $request->file('image');
+
+        foreach ($image as $img) {
+
+            $name_gen = hexdec(uniqid()) . '.' . strtolower($img->extension());
+            $folderPath = public_path('storage/' . env('IMG_MULTI_DIR') . '/' . $name_gen);
+            Image::make($img)->resize(300, 300)->save($folderPath);
+            $path = env('IMG_MULTI_DIR') . '/' . $name_gen;
+
+            Multipic::insert([
+                'image' => $path,
+                'created_at' => Carbon::now()
+            ]);
+        }
         return true;
     }
 }

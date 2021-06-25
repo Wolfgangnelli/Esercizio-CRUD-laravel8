@@ -49,6 +49,10 @@ Route::prefix('brand')->group(function () {
     Route::get('/delete/{id}', [BrandController::class, 'delete'])->name('brand.delete')->where('id', '[0-9]+');
 });
 
+// Multi Image routes
+Route::get('multi/image', [BrandController::class, 'multipic'])->name('multi.image');
+Route::post('multi/store', [BrandController::class, 'storeImgs'])->name('store.image');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     $users = User::all();
