@@ -22,13 +22,22 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+/* Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    $users = User::all();
+    // $users = DB::table('users')->get();
+    return view('dashboard', compact('users'));
+})->name('dashboard'); */
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    // $users = User::all();
+    // $users = DB::table('users')->get();
+    return view('admin.index');
+})->name('dashboard');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('contact', [ContactController::class, 'index'])->name('contact');
-    Route::get('about', function () {
-        return view('about');
-    })->name('about');
-});
+
+Route::get('contact', [ContactController::class, 'index'])->name('contact');
+Route::get('about', function () {
+    return view('about');
+})->name('about');
 
 // Category Controller
 Route::prefix('category')->group(function () {
@@ -59,11 +68,3 @@ Route::post('multi/store', [BrandController::class, 'storeImgs'])->name('store.i
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
-
-
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    $users = User::all();
-    // $users = DB::table('users')->get();
-    return view('dashboard', compact('users'));
-})->name('dashboard');
