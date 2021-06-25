@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateBrandRequest;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Image;
 
 class BrandController extends Controller
 {
@@ -99,12 +100,15 @@ class BrandController extends Controller
             return false;
         }
 
+
         $name_generate = hexdec(uniqid());
         $img_ext = strtolower($brand_image->getClientOriginalExtension());
         $img_name = $name_generate . '.' . $img_ext;
-        /* $path = env('IMG_BRAND_DIR') . '/' . $img_name; */
+        $path = public_path('storage/' . env('IMG_BRAND_DIR')) . '/' . $img_name;
         /*  $brand_image->move(env('IMG_BRAND_DIR'), $img_name); */
-        $path = $brand_image->storeAs(env('IMG_BRAND_DIR'), $img_name, 'public');
+        Image::make($brand_image)->resize(300, 200)->save($path);
+        /* $path = $brand_image->storeAs(env('IMG_BRAND_DIR'), $img_name, 'public'); */
+        $path = env('IMG_BRAND_DIR') . '/' . $img_name;
         $brand->brand_image = $path;
 
         return true;
