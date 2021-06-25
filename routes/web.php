@@ -53,6 +53,13 @@ Route::prefix('brand')->group(function () {
 Route::get('multi/image', [BrandController::class, 'multipic'])->name('multi.image');
 Route::post('multi/store', [BrandController::class, 'storeImgs'])->name('store.image');
 
+// EMAIL VERIFICATION
+// Email verification notice
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     $users = User::all();
